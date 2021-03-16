@@ -43,7 +43,7 @@ export default class App extends Component {
             <Text>D</Text>
           </View>
         </View>  */}
-        <View style={{backgroundColor: 'red',flex: 2,justifyContent: 'center', alignItems: 'center',borderWidth: 4, borderColor: '#a9a9a9'}}>
+        {/* <View style={{backgroundColor: 'red',flex: 2,justifyContent: 'center', alignItems: 'center',borderWidth: 4, borderColor: '#a9a9a9'}}>
           <Text style={{color: 'while'}}>1</Text>
         </View>
         <View style={{flex: 8, flexDirection: 'row'}}>
@@ -63,6 +63,35 @@ export default class App extends Component {
               </View>
             </View>
           </View>
+        </View> */}
+        <View style={{flexDirection: 'row',flex: 2}}>
+          <View style={{backgroundColor: 'red',flex: 0.5,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+            <Text style={styles.text}>1</Text>
+          </View>
+          <View style={{backgroundColor: 'yellow',flex: 1.5,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+            <Text style={styles.text}>2</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row',flex: 5}}>
+          <View style={{flex: 4,flexDirection: 'column'}}>
+            <View style={{backgroundColor: 'green',flex: 1.8,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+              <Text style={styles.text}>3</Text>
+            </View>
+            <View style={{backgroundColor: 'purple',flex: 2.2,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+              <Text style={styles.text}>4</Text>
+            </View>
+          </View>
+          <View style={{backgroundColor: 'gray',flex: 1,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+              <Text style={styles.text}>5</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row',flex: 3}}>
+          <View style={{backgroundColor: 'orange',flex: 1,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+              <Text style={styles.text}>6</Text>
+          </View>
+          <View style={{backgroundColor: 'blue',flex: 1,justifyContent: 'center', alignItems: 'center',borderWidth: 2, borderColor: '#a9a9a9'}}>
+              <Text style={styles.text}>7</Text>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -74,5 +103,10 @@ const styles = StyleSheet.create({
     flex: 10, 
     flexDirection: 'column',    
     alignItems: 'stretch'
+  },
+  text : {
+    color: 'white',
+    fontSize: 20
   }
 })
+
