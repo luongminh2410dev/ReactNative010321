@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
-
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View} from 'react-native'
+import screenDemensions from '../helpers/screenDemensions'
 export default class MainScreen extends Component {
 
     render() {
@@ -23,10 +23,13 @@ export default class MainScreen extends Component {
             }}>
             {
                 <TouchableOpacity
+                    onPress={() =>{
+                        alert('hello')
+                    }}
                     style={{
                         backgroundColor: 'orange',
-                        height: 100,
-                        width: 100,
+                        height: screenDemensions.getWidth() / 4.5,
+                        width: screenDemensions.getHeight() / 6,
                         justifyContent: 'center',
                         alignItems: 'center',
                         borderWidth: 1,
