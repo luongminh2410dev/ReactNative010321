@@ -1,17 +1,8 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Text, View } from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 
 export default class MainScreen extends Component {
 
-    // shouldShowVn(isMemorized, vn)
-    // {
-    //     if(isMemorized)
-    //     {
-    //         return '----'
-    //     }else{
-    //         return vn
-    //     }
-    // }
     render() {
         // destructuring
         // const {en, vn, isMemorized} = {en: 'One', vn: 'Mot', isMemorized: true}
@@ -27,17 +18,22 @@ export default class MainScreen extends Component {
             style={{
                 flex: 1, 
                 flexDirection: 'column', 
-                alignItems: 'center'
+                alignItems: 'center',
+                justifyContent: 'center'
             }}>
             {
-                words.map((word) =>{
-                    return (
-                        <View style={{flexDirection: 'row'}}>
-                            <Text style={{fontSize: 30}}> {word.en} </Text>
-                            <Text style={{fontSize: 30}}> {word.vn} </Text>
-                        </View>
-                    )
-                })
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: 'orange',
+                        height: 100,
+                        width: 100,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderWidth: 1,
+                        borderRadius: 100
+                    }}>
+                        <Text>Click me</Text>
+                </TouchableOpacity>
             }
             </SafeAreaView>
         )
