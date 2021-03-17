@@ -22,29 +22,23 @@ export default class MainScreen extends Component {
             {id:3, en: 'three', vn: 'Ba'}
         ]
 
-        const arrNames = ['teo','ti','tun','tuan']
         return (
             <SafeAreaView 
             style={{
                 flex: 1, 
-                flexDirection: 'row', 
-                justifyContent: 'space-evenly'
+                flexDirection: 'column', 
+                alignItems: 'center'
             }}>
-                {/* <Text style={{fontSize: 30}}> {en} </Text>
-                <Text style={{fontSize: 30}}> {isMemorized ? '----': vn} </Text> */}
             {
-                [
-                <Text>{arrNames[0]}</Text>,
-                <Text>{arrNames[1]}</Text>,
-                <Text>{arrNames[2]}</Text>,
-                <Text>{arrNames[3]}</Text>
-                ]
-            }
-            {/* {
-                arrNames.map((name) =>{
-                    return <Text>{name}</Text>
+                words.map((word) =>{
+                    return (
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{fontSize: 30}}> {word.en} </Text>
+                            <Text style={{fontSize: 30}}> {word.vn} </Text>
+                        </View>
+                    )
                 })
-            } */}
+            }
             </SafeAreaView>
         )
     }
