@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-// phai import MainScreen de render ra App.js
-import MainScreen from './src/screens/MainScreen'
+import React, { Component } from 'react';
+import Box from './src/components/Box';
+import { SafeAreaView , Platform } from 'react-native';
+import Form from './src/components/Form';
+import MainScreen from './src/screens/MainScreen';
+
 export default class App extends Component {
   render() {
-    // Chi tra ra MainScreen
-    return <MainScreen/>
+    return (
+      <SafeAreaView style={{flex : 1 , marginTop : Platform.OS === 'android' ? 10 : 0}}>
+        <MainScreen/>
+      </SafeAreaView>
+    );
   }
 }
