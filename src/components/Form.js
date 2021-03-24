@@ -30,6 +30,7 @@ export default class Form extends Component {
               style={styles.textInput}
               ref={(refs) => (this.textInputEn = refs)}
             />
+            
             <TextInput
               onChangeText={(text) => (this.state.txtVn = text)}
               placeholder="Vietnamese"

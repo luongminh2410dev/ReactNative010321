@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
+import Child from './Child';
 
 export default class Box extends Component {
   constructor(props) {
@@ -8,11 +9,23 @@ export default class Box extends Component {
       count: 0,
     };
   }
-  increase = () => {
-    this.setState({count: this.state.count + 1}, () => {
-      console.log(this.state.count);
-    });
-  };
+  // increase = () => {
+  //   this.setState({count: this.state.count + 1}, () => {
+  //     console.log(this.state.count);
+  //   });
+  // };
+  onInCrease = () =>
+  {
+    this.setState({count: this.state.count + 1})
+  }
+  onDeCrease = () =>
+  {
+    this.setState({count: this.state.count - 1})
+  }
+  onReset = () =>
+  {
+    this.setState({count: this.state.count = 0})
+  }
   render() {
     return (
       <View style={{justifyContent: 'center', flex: 1}}>
@@ -25,25 +38,11 @@ export default class Box extends Component {
           }}>
           Count = {this.state.count}
         </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-          <TouchableOpacity
-            onPress={this.increase}
-            style={{padding: 10, backgroundColor: 'green', borderRadius: 5}}>
-            <Text>InCrease</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{padding: 10, backgroundColor: 'red', borderRadius: 5}}>
-            <Text>DesCrease</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              padding: 10,
-              backgroundColor: 'yellow',
-              borderRadius: 5,
-            }}>
-            <Text>Reset</Text>
-          </TouchableOpacity>
-        </View>
+        <Child 
+          onInCrease={this.onInCrease}
+          onDeCrease={this.onDeCrease}>
+          onReset={this.onReset}
+          </Child>
       </View>
     );
   }

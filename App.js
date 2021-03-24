@@ -3,6 +3,7 @@ import Box from './src/components/Box';
 import { SafeAreaView , Platform } from 'react-native';
 import Form from './src/components/Form';
 import MainScreen from './src/screens/MainScreen';
+import Filter from './src/components/Filter';
 
 export default class App extends Component {
   render() {
