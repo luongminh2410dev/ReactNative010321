@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import RNPickerSelect from 'react-native-picker-select';
 import Filter from '../components/Filter';
 import Word from '../components/Word';
+import Form from '../components/Form';
 export default class MainScreen extends Component {
 
     constructor(props){
@@ -24,7 +25,7 @@ export default class MainScreen extends Component {
         };
     }
 
-    toggleWord = (word) => {
+    ontoggleWord = (word) => {
         const newWords = this.state.words.map(item => {
             if (item.id === word.id) {
                 return { ...item, isMemorized: !item.isMemorized };
@@ -34,7 +35,7 @@ export default class MainScreen extends Component {
         this.setState({ words: newWords });
     }
 
-    removeWord = (word) => {
+    onremoveWord = (word) => {
         const newWords = this.state.words.filter(item => {
             if (item.id === word.id) {
                 return false;
@@ -44,12 +45,11 @@ export default class MainScreen extends Component {
         this.setState({ words: newWords });
     }
 
-    toggleForm = () => {
+    ontoggleForm = () => {
         this.setState({ shouldShowForm: !this.state.shouldShowForm });
     };
     
-    addWord = () => {
-        this.textInputEn.clear()
+    onaddWord = () => {
         const {txtEn, txtVn} = this.state;
         if(txtEn.length <= 0 || txtVn.length <= 0)
         {
@@ -69,157 +69,39 @@ export default class MainScreen extends Component {
             this.textInputVn.clear();
         })
     }
-    renderFilter = () =>
-    {
-        return(
-            <View style={styles.containerPickerStyle}>
-                <RNPickerSelect
-                onValueChange={(value) => this.setState({filterMode : value})}
-                items={[
-                    {label: 'Show All', value: 'Show_All'},
-                    {label: 'Show Forgot', value: 'Show_Forgot'},
-                    {label: 'Show Memorized', value: 'Show_Memorized'},
-                ]}
-                />
-            </View>
-        )
-    }
-    renderItemWord = (word) => {
-        const { filterMode } = this.state;
-        if (filterMode === 'Show_Forgot' && !word.isMemorized){
-            return null;
-        } else if (filterMode === 'Show_Memorized' && word.isMemorized){
-            return null;
-        }
-        return(
-            <View key={word.id}>
-                <View style={styles.groupWord}>
-                    <View style={styles.groupHorizontal}>
-                        <Text style={styles.textEn}>{word.en}</Text>
-                        <Text style={styles.textVn}>
-                            {word.isMemorized ? '----' : word.vn}
-                        </Text>
-                    </View>
-                    <View style={styles.groupHorizontal}>
-                        <TouchableOpacity
-                            onPress={() => this.toggleWord(word)}
-                            style={{
-                                ...styles.buttonMemorize,
-                                backgroundColor: word.isMemorized ? 'green' : 'red',
-                            }}>
-                            <Text style={styles.textMemorize}>
-                                {word.isMemorized ? 'Forgot' : 'Memorize'}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => this.removeWord(word)}
-                            style={styles.buttonRemove}>
-                            <Text style={styles.textRemove}>Remove</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-    renderForm = (shouldShowForm) => {
-        if (shouldShowForm) {
-            return (
-                <View>
-                    <View style={styles.containerTextInput}>
-                        <TextInput
-                            onChangeText={(text) => (this.state.txtEn = text)}
-                            placeholder="English"
-                            style={styles.textInput}
-                            ref={(refs) => (this.textInputEn = refs)}
-                        />
-                        <TextInput
-                            onChangeText={(text) => (this.state.txtVn = text)}
-                            placeholder="Vietnamese"
-                            style={styles.textInput}
-                            ref={(refs) => (this.textInputVn = refs)}
-                        />
-                    </View>
-                    <View style={styles.containerTouchable}>
-                        <TouchableOpacity 
-                            onPress={this.addWord}
-                            style={styles.touchableAddword}>
-                            <Text style={styles.textTouchable}>Add word</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={this.toggleForm}
-                            style={styles.touchableCancel}>
-                            <Text style={styles.textTouchable}>Cancel</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        } else {
-            return (
-                <TouchableOpacity
-                    onPress={this.toggleForm}
-                    style={styles.buttonOpenForm}>
-                    <Text style={styles.textOpenForm}>+</Text>
-                </TouchableOpacity>
-            );
-        }
-    };
-
+    onValueFilterChange = (value) => (this.setState({filterMode : value}))
+    onChangeTextEn = (text) => this.setState({txtEn: text})
+    onChangeTextVn = (text) => this.setState({txtVn: text})
     render() {
         return (
             <View style={{
                 flex: 1,
                 flexDirection: 'column',
             }}>
-                {this.renderForm(this.state.shouldShowForm)}
-                {this.renderFilter()}
-                {/* <ScrollView>
-                    <View>
-                        {this.state.words.map(word => this.renderItemWord(word))}
-                    </View>
-                </ScrollView> */}
-                <Word data ={this.state.words}></Word>
+                <Form 
+                shouldShowForm={this.state.shouldShowForm} 
+                ontoggleForm = {this.ontoggleForm}
+                onaddWord = {this.onaddWord}
+                onChangeTextEn ={this.onChangeTextEn}
+                onChangeTextVn ={this.onChangeTextVn}
+                />
+                <Filter 
+                    filterMode={this.state.filterMode}
+                    onValueFilterChange ={this.onValueFilterChange}
+                />
+                <Word 
+                    data ={this.state.words}
+                    filterMode={this.state.filterMode}
+                    onremoveWord={this.onremoveWord}
+                    ontoggleWord={this.ontoggleWord}
+                    >
+                </Word>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    groupWord: {
-        height: 100,
-        backgroundColor: 'gainsboro',
-        justifyContent: 'space-evenly',
-        marginHorizontal: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        shadowColor: '#000',
-    },
-    groupHorizontal: {
-        marginBottom: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    },
-    textEn: {
-        color: 'green',
-        fontWeight: '500',
-        fontSize: screenDimension.getWidth() / 22,
-    },
-    textVn: {
-        color: 'red',
-        fontWeight: '500',
-        fontSize: screenDimension.getWidth() / 22,
-    },
-    buttonMemorize: {
-        backgroundColor: 'green',
-        padding: 10,
-        borderRadius: 5,
-    },
-    buttonRemove: {
-        backgroundColor: 'yellow',
-        padding: 10,
-        borderRadius: 5,
-    },
     textMemorize: {
         color: 'white',
         fontSize: screenDimension.getWidth() / 22,
@@ -227,46 +109,6 @@ const styles = StyleSheet.create({
     textRemove: {
         color: 'darkblue',
         fontSize: screenDimension.getWidth() / 22,
-    },
-    containerTextInput: {
-        width: '100%',
-        height: 150,
-        justifyContent: 'space-evenly',
-    },
-    textInput: {
-        borderWidth: 1,
-        height: 60,
-        fontSize: 20,
-        marginHorizontal: 10,
-        paddingHorizontal: 10,
-    },
-    touchableAddword: {
-        backgroundColor: '#218838',
-        padding: 15,
-        borderRadius: 10,
-    },
-    textTouchable: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '500',
-    },
-    touchableCancel: {
-        backgroundColor: 'red',
-        padding: 15,
-        borderRadius: 10,
-    },
-    buttonOpenForm: {
-        marginHorizontal: 10,
-        height: 50,
-        backgroundColor: '#45B157',
-        borderRadius: 5,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    textOpenForm: {
-        color: 'white',
-        fontSize: 30,
     },
     containerTouchable: {
         flexDirection: 'row',

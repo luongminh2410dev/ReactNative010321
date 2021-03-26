@@ -5,63 +5,59 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
+} from 'react-native';  
 
 export default class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      shouldShowForm: false,
-    };
-  }
-
-  toggleForm = () => {
-    this.setState({shouldShowForm: !this.state.shouldShowForm});
-  };
-
   renderForm = (shouldShowForm) => {
+    const {ontoggleForm} = this.props;
+    const {onaddWord} = this.props;
+    const {onChangeTextEn} = this.props;
+    const {onChangeTextVn} = this.props;
+    
     if (shouldShowForm) {
       return (
         <View>
           <View style={styles.containerTextInput}>
-            <TextInput
-              onChangeText={(text) => (this.state.txtEn = text)}
-              placeholder="English"
-              style={styles.textInput}
-              ref={(refs) => (this.textInputEn = refs)}
-            />
-            
-            <TextInput
-              onChangeText={(text) => (this.state.txtVn = text)}
-              placeholder="Vietnamese"
-              style={styles.textInput}
-              ref={(refs) => (this.textInputVn = refs)}
-            />
+              <TextInput
+                  onChangeText={onChangeTextEn}
+                  placeholder="English"
+                  style={styles.textInput}
+                  ref={(refs) => (this.textInputEn = refs)}
+              />
+              <TextInput
+                  onChangeText={onChangeTextVn}
+                  placeholder="Vietnamese"
+                  style={styles.textInput}
+                  ref={(refs) => (this.textInputVn = refs)}
+              />
           </View>
           <View style={styles.containerTouchable}>
-            <TouchableOpacity style={styles.touchableAddword}>
-              <Text style={styles.textTouchable}>Add word</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.toggleForm}
-              style={styles.touchableCancel}>
-              <Text style={styles.textTouchable}>Cancel</Text>
-            </TouchableOpacity>
+              <TouchableOpacity 
+                  onPress={onaddWord}
+                  style={styles.touchableAddword}>
+                  <Text style={styles.textTouchable}>Add word</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  onPress={ontoggleForm}
+                  style={styles.touchableCancel}>
+                  <Text style={styles.textTouchable}>Cancel</Text>
+              </TouchableOpacity>
           </View>
         </View>
       );
     } else {
       return (
-        <TouchableOpacity
-          onPress={this.toggleForm}
-          style={styles.buttonOpenForm}>
-          <Text style={styles.textOpenForm}>+</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+              onPress={ontoggleForm}
+              style={styles.buttonOpenForm}>
+              <Text style={styles.textOpenForm}>+</Text>
+          </TouchableOpacity>
       );
     }
-  };
+  }
   render() {
-    return this.renderForm(this.state.shouldShowForm);
+    const {shouldShowForm} = this.props;
+    return this.renderForm(shouldShowForm);
   }
 }
 
