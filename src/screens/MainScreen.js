@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Text, SafeAreaView, View, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TextInput,Alert } from 'react-native';
 import screenDimension from '../helpers/screenDimension';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import RNPickerSelect from 'react-native-picker-select';
 import Filter from '../components/Filter';
 import Word from '../components/Word';
 import Form from '../components/Form';
@@ -36,42 +34,42 @@ export default class MainScreen extends Component {
     }
 
     onremoveWord = (word) => {
-        const newWords = this.state.words.filter(item => {
-            if (item.id === word.id) {
-                return false;
-            }
-            return true;
-        });
-        this.setState({ words: newWords });
+        Alert.alert(
+            "Thong bao",
+            "Ban co chac chan muon xoa",
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Xoa',
+                    onPress: () => {
+                        const newWords = this.state.words.filter(item => {
+                            if (item.id === word.id) {
+                                return false;
+                            }
+                            return true;
+                        });
+                        this.setState({ words: newWords });
+                    },
+                },
+            ],
+            { cancelable : false }
+        )
+        
     }
 
     ontoggleForm = () => {
         this.setState({ shouldShowForm: !this.state.shouldShowForm });
     };
     
-    onaddWord = () => {
-        const {txtEn, txtVn} = this.state;
-        if(txtEn.length <= 0 || txtVn.length <= 0)
-        {
-            return alert('Ban phai nhap day du thong tin')
-        }
-        const newWords = this.state.words.map(word => ({...word}))
-
-        const newWord = {
-            id: Math.random(),
-            en : txtEn,
-            vn: txtVn,
-            isMemorized: false,
-        }
+    onaddWord = (newWord, callback) => {
+        const newWords = this.state.words.map(word => ({ ...word }));
         newWords.push(newWord);
-        this.setState({words : newWords, txtEn: '', txtVn: ''}, () =>{
-            this.textInputEn.clear();
-            this.textInputVn.clear();
-        })
+        this.setState({words : newWords}, callback)
     }
     onValueFilterChange = (value) => (this.setState({filterMode : value}))
-    onChangeTextEn = (text) => this.setState({txtEn: text})
-    onChangeTextVn = (text) => this.setState({txtVn: text})
     render() {
         return (
             <View style={{
@@ -82,8 +80,6 @@ export default class MainScreen extends Component {
                 shouldShowForm={this.state.shouldShowForm} 
                 ontoggleForm = {this.ontoggleForm}
                 onaddWord = {this.onaddWord}
-                onChangeTextEn ={this.onChangeTextEn}
-                onChangeTextVn ={this.onChangeTextVn}
                 />
                 <Filter 
                     filterMode={this.state.filterMode}

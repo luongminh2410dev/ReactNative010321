@@ -6,26 +6,55 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';  
-
+import PropTypes from 'prop-types'
 export default class Form extends Component {
+  static propTypes = {
+    shouldShowForm: PropTypes.bool,
+    ontoggleForm: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    shouldShowForm: false,
+  }
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      txtEn: '',
+      txtVn: '',
+    }
+  }
+  addWord = () => {
+    const {txtEn, txtVn} = this.state;
+        if(txtEn.length <= 0 || txtVn.length <= 0)
+        {
+            return alert('Ban phai nhap day du thong tin')
+        }
+        const newWord = {
+            id: Math.random(),
+            en : txtEn,
+            vn: txtVn,
+            isMemorized: false,
+        }
+        this.props.onaddWord(newWord, () =>{
+          this.setState({txtEn: '', txtVn: ''});
+          this.textInputEn.clear();
+          this.textInputVn.clear();
+        })
+  }
   renderForm = (shouldShowForm) => {
     const {ontoggleForm} = this.props;
-    const {onaddWord} = this.props;
-    const {onChangeTextEn} = this.props;
-    const {onChangeTextVn} = this.props;
-    
     if (shouldShowForm) {
       return (
         <View>
           <View style={styles.containerTextInput}>
               <TextInput
-                  onChangeText={onChangeTextEn}
+                  onChangeText={(text) => (this.state.txtEn = text)}
                   placeholder="English"
                   style={styles.textInput}
                   ref={(refs) => (this.textInputEn = refs)}
               />
               <TextInput
-                  onChangeText={onChangeTextVn}
+                  onChangeText={(text) => (this.state.txtVn = text)}
                   placeholder="Vietnamese"
                   style={styles.textInput}
                   ref={(refs) => (this.textInputVn = refs)}
@@ -33,7 +62,7 @@ export default class Form extends Component {
           </View>
           <View style={styles.containerTouchable}>
               <TouchableOpacity 
-                  onPress={onaddWord}
+                  onPress={this.addWord}
                   style={styles.touchableAddword}>
                   <Text style={styles.textTouchable}>Add word</Text>
               </TouchableOpacity>

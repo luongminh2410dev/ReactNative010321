@@ -2,6 +2,18 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import screenDimension from '../helpers/screenDimension';
 export default class ItemWord extends Component {
+  shouldComponentUpdate(newProps, newState)
+  {
+    if(
+      newProps.filterMode === this.props.filterMode ||
+      newProps.onremoveWord === this.props.onremoveWord ||
+      newProps.ontoggleWord === this.props.ontoggleWord
+    )
+    {
+      return false
+    }
+    return true
+  }
   renderItemWord = (word) => {
     const {filterMode} = this.props;
     const {ontoggleWord}= this.props;
