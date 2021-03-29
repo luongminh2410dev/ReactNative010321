@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Text, View, TouchableOpacity} from 'react-native'
+import { connect } from 'react-redux'
 
-export default class Child extends PureComponent {
+
+class Child extends Component {
     // PureComponent ko nen su dung nhieu voi cac kieu du lieu Object
     // Check props function co su thay doi or dung PureComponent(Tranh bi render lai mac du ko thay doi)
     shouldComponentUpdate(newProps, newState)
@@ -10,23 +12,20 @@ export default class Child extends PureComponent {
         return false
     }
     render() {
-        const {onInCrease} = this.props
-        const {onDeCrease} = this.props
-        const {onReset} = this.props
         return (
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity
-            onPress={onInCrease}
+            onPress={() => this.props.dispatch({type: 'INCREASE'})}
             style={{padding: 10, backgroundColor: 'green', borderRadius: 5}}>
             <Text>InCrease</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={onDeCrease}
+            onPress={() => this.props.dispatch({type: 'DECREASE'})}
             style={{padding: 10, backgroundColor: 'red', borderRadius: 5}}>
             <Text>DesCrease</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={onReset}
+            onPress={() => this.props.dispatch({type: 'RESET'})}
             style={{
               padding: 10,
               backgroundColor: 'yellow',
@@ -38,3 +37,4 @@ export default class Child extends PureComponent {
         )
     }
 }
+export default connect()(Child);

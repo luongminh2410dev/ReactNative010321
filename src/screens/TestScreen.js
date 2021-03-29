@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View , Image} from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View , Image, ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import Box from '../components/Box'
 import { SliderBox } from "react-native-image-slider-box"
@@ -51,12 +51,14 @@ export default class TestScreen extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <SliderBox 
                     images = {this.state.imageAds}
                     autoplay = {true}
                     circleLoop = {true}
                 />
+                
+                
                 <View style={styles.menubar}>
                     <View style={styles.menubar_logo}>
                         <Icon name="android1" size={30} color='#cf2127'/>
@@ -73,6 +75,7 @@ export default class TestScreen extends Component {
                     </TouchableOpacity>
                 </View>
 
+                
                 <View style={styles.listItem}>
                     <FlatList
                         numColumns = '2'
@@ -104,8 +107,10 @@ export default class TestScreen extends Component {
                         )}
                     />
                 </View>
+                
+                
                 <Image
-                        style={{flex: 1.5}}
+                        style={{height: 60, marginTop: 8, marginBottom: 8}}
                         source = {{uri: 'https://media.foody.vn/images/beauty-upload-api-thiet-ke-khong-ten-%2829%29-210225115257.jpg'}}
                     />
                 <View style={styles.menubar2}>
@@ -135,19 +140,52 @@ export default class TestScreen extends Component {
                         />
                     </View>
                 </View>
-            </View>
+                
+                
+                <View style={styles.listItem2}>
+                    <FlatList
+                        numColumns = '1'
+                        data = {this.state.items}
+                        keyExtractor={(item, index) => item.id.toString()}
+                        renderItem={({item, index}) => (
+                            <View style={styles.item}>
+                                <Image 
+                                    style={styles.item_Image}
+                                    source={item.picture}
+                                    resizeMode = 'stretch' 
+                                />
+                                <View style={styles.item_content}>
+                                    <Text 
+                                        style={styles.item_contentTitle}
+                                        numberOfLines = {1}
+                                        >
+                                        {item.title}
+                                    </Text>
+                                    <Text style={{color: '#888'}}>{item.address}</Text>
+                                    <View style={styles.item_contentTago}>
+                                        <Icon
+                                            name="tag" size={15} color='#cf2127'
+                                        />
+                                        <Text>{item.label}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        )}
+                    />
+                </View>
+            </ScrollView>
         )
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 10,
+        flex: 1,
         flexDirection: 'column',
         padding: 2,
         backgroundColor: '#eeeeee',
     },
     menubar: {
-        flex: 1,
+        height: 50,
         flexDirection: 'row',
         borderWidth: 0.2,
         borderColor: 'gray',
@@ -175,14 +213,12 @@ const styles = StyleSheet.create({
         fontSize : 16,
     },
     listItem: {
-        flex: 9, 
+        flex: 1, 
         flexDirection: 'column',
         backgroundColor: '#eeeeee',
-        height: 1000
     },
     item: {
         flex: 1,
-       
         flexDirection: 'column',
         margin: 4,
         backgroundColor: '#ffffff'
@@ -208,7 +244,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     menubar2: {
-        flex: 1,
+        height: 50,
         flexDirection: 'row',
         borderWidth: 0.2,
         borderColor: 'gray',
@@ -223,5 +259,13 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         height: 20,
         width: 140
-    }
+    },
+
+    listItem2: {
+        flex: 1, 
+        flexDirection: 'column',
+        backgroundColor: '#eeeeee',
+        paddingLeft: 50,
+        paddingRight: 50,
+    },
 })

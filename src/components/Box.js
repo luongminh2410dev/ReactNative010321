@@ -1,31 +1,9 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
+import { connect } from 'react-redux';
 import Child from './Child';
 
-export default class Box extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 0,
-    };
-  }
-  // increase = () => {
-  //   this.setState({count: this.state.count + 1}, () => {
-  //     console.log(this.state.count);
-  //   });
-  // };
-  onInCrease = () =>
-  {
-    this.setState({count: this.state.count + 1})
-  }
-  onDeCrease = () =>
-  {
-    this.setState({count: this.state.count - 1})
-  }
-  onReset = () =>
-  {
-    this.setState({count: this.state.count = 0})
-  }
+class Box extends Component {
   render() {
     return (
       <View style={{justifyContent: 'center', flex: 1}}>
@@ -36,14 +14,19 @@ export default class Box extends Component {
             fontSize: 20,
             marginBottom: 10,
           }}>
-          Count = {this.state.count}
+          Count = {this.props.count}
         </Text>
         <Child 
           onInCrease={this.onInCrease}
-          onDeCrease={this.onDeCrease}>
-          onReset={this.onReset}
+          onDeCrease={this.onDeCrease}
+          onReset={this.onReset}>
           </Child>
       </View>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {count: state};
+}
+
+export default connect(mapStateToProps)(Box);
