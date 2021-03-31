@@ -4,33 +4,12 @@ import screenDimension from '../helpers/screenDimension';
 import Filter from '../components/Filter';
 import Word from '../components/Word';
 import Form from '../components/Form';
-export default class MainScreen extends Component {
+import { connect } from 'react-redux';
 
-    constructor(props){
-        super(props);
-        this.state = {
-            words: [
-                { id: 1, en: 'One', vn: 'Một', isMemorized: true },
-                { id: 2, en: 'Two', vn: 'Hai', isMemorized: true },
-                { id: 3, en: 'Three', vn: 'Ba', isMemorized: false },
-                { id: 4, en: 'Four', vn: 'Bốn', isMemorized: false },
-                { id: 5, en: 'Five', vn: 'Năm', isMemorized: true },
-            ],
-            shouldShowForm: false,
-            txtEn: '',
-            txtVn: '',
-            filterMode: 'Show_All'
-        };
-    }
+class MainScreen extends Component {
 
     ontoggleWord = (word) => {
-        const newWords = this.state.words.map(item => {
-            if (item.id === word.id) {
-                return { ...item, isMemorized: !item.isMemorized };
-            }
-            return item;
-        });
-        this.setState({ words: newWords });
+        this.props.dispatch({ type : 'TOGGLE_WORD', word })
     }
 
     onremoveWord = (word) => {
@@ -45,13 +24,7 @@ export default class MainScreen extends Component {
                 {
                     text: 'Xoa',
                     onPress: () => {
-                        const newWords = this.state.words.filter(item => {
-                            if (item.id === word.id) {
-                                return false;
-                            }
-                            return true;
-                        });
-                        this.setState({ words: newWords });
+                        this.props.dispatch({type: 'REMOVE_WORD', word});
                     },
                 },
             ],
@@ -61,15 +34,16 @@ export default class MainScreen extends Component {
     }
 
     ontoggleForm = () => {
-        this.setState({ shouldShowForm: !this.state.shouldShowForm });
-    };
+        this.props.dispatch({ type: 'TOGGLE_FORM'});
+    }
     
     onaddWord = (newWord, callback) => {
-        const newWords = this.state.words.map(word => ({ ...word }));
-        newWords.push(newWord);
-        this.setState({words : newWords}, callback)
+        this.props.dispatch({ type : 'ADD_WORD' , newWord });
+        callback();
     }
-    onValueFilterChange = (value) => (this.setState({filterMode : value}))
+    onValueFilterChange = (value) => {
+        this.props.dispatch({ type : 'SET_FILTER_MODE', value });
+    }
     render() {
         return (
             <View style={{
@@ -77,17 +51,17 @@ export default class MainScreen extends Component {
                 flexDirection: 'column',
             }}>
                 <Form 
-                shouldShowForm={this.state.shouldShowForm} 
+                shouldShowForm={this.props.shouldShowForm} 
                 ontoggleForm = {this.ontoggleForm}
                 onaddWord = {this.onaddWord}
                 />
                 <Filter 
-                    filterMode={this.state.filterMode}
+                    filterMode={this.props.filterMode}
                     onValueFilterChange ={this.onValueFilterChange}
                 />
                 <Word 
-                    data ={this.state.words}
-                    filterMode={this.state.filterMode}
+                    data ={this.props.words}
+                    filterMode={this.props.filterMode}
                     onremoveWord={this.onremoveWord}
                     ontoggleWord={this.ontoggleWord}
                     >
@@ -97,29 +71,14 @@ export default class MainScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    textMemorize: {
-        color: 'white',
-        fontSize: screenDimension.getWidth() / 22,
-    },
-    textRemove: {
-        color: 'darkblue',
-        fontSize: screenDimension.getWidth() / 22,
-    },
-    containerTouchable: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginBottom: 10,
-    },
-    containerPickerStyle: {
-        borderWidth: 1,
-        borderRadius: 1,
-        borderColor: 'black',
-        padding: 5,
-        marginHorizontal: 10,
-        marginBottom: 10,
-      },
-      pickerStyle: {
-        padding: 50,
-      },
-});
+const mapStateToProps = (state) => {
+    return {
+        words : state.words ,
+        filterMode : state.filterMode ,
+        shouldShowForm : state.shouldShowForm,
+    };
+};
+
+export default connect(mapStateToProps)(MainScreen);
+// Cach viet tat:
+// export default connect(state)(MainScreen);

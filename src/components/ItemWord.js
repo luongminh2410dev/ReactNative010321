@@ -35,7 +35,7 @@ export default class ItemWord extends Component {
           </View>
           <View style={styles.groupHorizontal}>
             <TouchableOpacity
-              onPress={() => ontoggleWord(word)}
+              onPress={(word) => ontoggleWord(word)}
               style={{
                 ...styles.buttonMemorize,
                 backgroundColor: word.isMemorized ? 'green' : 'red',
@@ -45,7 +45,7 @@ export default class ItemWord extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => onremoveWord(word)}
+              onPress={(word) => onremoveWord(word)}
               style={styles.buttonRemove}>
               <Text style={styles.textRemove}>Remove</Text>
             </TouchableOpacity>

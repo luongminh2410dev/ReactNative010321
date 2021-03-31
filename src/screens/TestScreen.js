@@ -58,7 +58,6 @@ export default class TestScreen extends Component {
                     circleLoop = {true}
                 />
                 
-                
                 <View style={styles.menubar}>
                     <View style={styles.menubar_logo}>
                         <Icon name="android1" size={30} color='#cf2127'/>
@@ -107,7 +106,6 @@ export default class TestScreen extends Component {
                         )}
                     />
                 </View>
-                
                 
                 <Image
                         style={{height: 60, marginTop: 8, marginBottom: 8}}
